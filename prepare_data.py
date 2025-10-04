@@ -38,6 +38,11 @@ def main(args, bm):
 
         idx = 0
         for filepath in tqdm(filepaths):
+            idx += 1
+            save_path = os.path.join(savedir, f"{idx}.pt")
+            if os.path.exists(save_path):
+                tqdm.write(f"file exists, skipping: {save_path}") 
+                continue
             data = {}
             bdata = np.load(
                 os.path.join(args.root_dir, filepath), allow_pickle=True
@@ -47,7 +52,7 @@ def main(args, bm):
                 framerate = bdata["mocap_framerate"]
             else:
                 continue
-            idx += 1
+            
 
             if framerate == 120:
                 stride = 2
